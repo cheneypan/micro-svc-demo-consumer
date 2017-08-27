@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd"
+	default-autowire="byName">
+
+	<!-- 启用spring mvc 注解 -->
+	<context:annotation-config />
+
+	<!-- 解析配置文件 -->
+	<context:property-placeholder location="classpath*:conf/*.properties"
+		ignore-unresolvable="true" />
+
+	<!-- 自动扫描Bean -->
+	<context:component-scan base-package="com.micro.svc.demo.consumer">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service" />
+	</context:component-scan>
+	
+	<!-- 处理在类级别上的@RequestMapping注解，增加了拦截器 -->
+<!-- 	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" /> -->
+	<bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<property name="interceptors">
+			<!-- 多个拦截器,顺序执行 -->
+			<list>
+				<!-- <ref bean="loginInterceptor" /> -->
+			</list>
+		</property>
+	</bean>
+
+	<!-- 处理方法级别上的@RequestMapping注解 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" >
+		<property name="messageConverters">
+			<list>   
+			    <ref bean="mappingJacksonHttpMessageConverter" />
+	    	</list>
+		</property>
+	</bean>
+
+	<!-- mvc的视图扭转 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp" />
+
+	<!-- 为了处理返回的JSON数据的编码，默认是ISO-88859-1的，这里把它设置为UTF-8,解决有乱码的情况 -->
+	<!-- 设置全局格式转换器 -->
+	<!-- 参考：Spring4 MVC 返回json格式时候 设置不返回null值属性的问题 http://bbs.csdn.net/topics/391838351?page=1 -->
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="objectMapper">
+			<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+				<property name="dateFormat">
+					<bean class="java.text.SimpleDateFormat">
+						<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+				<value>application/json</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 启用shrio授权注解拦截方式 -->
+	<aop:config proxy-target-class="true"></aop:config>
+	
+	
+</beans>
