@@ -18,8 +18,11 @@ public class ProductClient extends BaseClient{
     private String productServer;
 
     public String call(String msg) throws Exception {
+        logger.info("productServer: " + productServer);
         logger.info("send message: " + msg);
+
         String url = "http://" + this.productServer + "/call?msg=" + msg;
+        logger.info("url: " + url);
 
         HttpClient client = HttpClientBuilder.create().build();
         HttpGet get = new HttpGet(url);
