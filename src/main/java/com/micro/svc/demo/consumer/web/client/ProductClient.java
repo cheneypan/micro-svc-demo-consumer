@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductClient extends BaseClient{
 
-    @Value("${micro.svc.product.server:unknown}")
+    @Value("${micro_svc_product_server:unknown}")
     private String productServer;
 
     public String call(String msg) throws Exception {
