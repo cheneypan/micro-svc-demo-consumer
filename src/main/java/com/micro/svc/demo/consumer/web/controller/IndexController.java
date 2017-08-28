@@ -51,7 +51,7 @@ public class IndexController {
         } else {
             replyJSON.put("reply.info", "not config server");
         }
-        jsonObject.put("reply", replyJSON.toJSONString());
+        jsonObject.put("reply", replyJSON);
         logger.info("result: " + jsonObject.toJSONString());
         return jsonObject;
     }
