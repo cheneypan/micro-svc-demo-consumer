@@ -35,17 +35,23 @@ public class IndexController {
         jsonObject.put("micro.svc.product.server", productServer);
         jsonObject.put("random.num", RandomStringUtils.randomNumeric(8));
         jsonObject.put("random.string", RandomStringUtils.randomAlphabetic(8));
+
+        JSONObject replyJSON = new JSONObject();
         if (StringUtils.isNotBlank(productServer) && !"unknown".equalsIgnoreCase(productServer)) {
+
             String msg = RandomStringUtils.randomAlphabetic(8);
-            jsonObject.put("send.message", msg);
+            replyJSON.put("send.message", msg);
             try {
                 String reply = productClient.call(msg);
-                jsonObject.put("reply.message", msg);
+                replyJSON.put("reply.message", msg);
             } catch (Exception e) {
-                jsonObject.put("reply.error", e.getMessage());
+                replyJSON.put("reply.error", e.getMessage());
                 logger.error(e.getMessage(), e);
             }
+        } else {
+            replyJSON.put("reply.info", "not config server");
         }
+        jsonObject.put("reply", replyJSON.toJSONString());
         logger.info("result: " + jsonObject.toJSONString());
         return jsonObject;
     }
