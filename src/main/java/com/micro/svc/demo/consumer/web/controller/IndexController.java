@@ -43,7 +43,7 @@ public class IndexController {
             replyJSON.put("send.message", msg);
             try {
                 String reply = productClient.call(msg);
-                replyJSON.put("reply.message", msg);
+                replyJSON.put("reply.message", reply);
             } catch (Exception e) {
                 replyJSON.put("reply.error", e.getMessage());
                 logger.error(e.getMessage(), e);
