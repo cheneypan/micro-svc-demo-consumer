@@ -21,7 +21,7 @@ public class ProductClient extends BaseClient{
         logger.info("productServer: " + productServer);
         logger.info("send message: " + msg);
 
-        String url = "http://" + this.productServer + "/call?msg=" + msg;
+        String url = "http://" + this.productServer + ":8080/call?msg=" + msg;
         logger.info("url: " + url);
 
         HttpClient client = HttpClientBuilder.create().build();
