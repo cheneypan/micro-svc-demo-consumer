@@ -43,7 +43,7 @@ public class IndexController {
             String msg = RandomStringUtils.randomAlphabetic(8);
             replyJSON.put("send.message", msg);
             try {
-                String reply = productClient.call(msg);
+                String reply = productClient.call(productServer + ":8080", msg);
                 replyJSON.put("reply.message", reply);
             } catch (Exception e) {
                 replyJSON.put("reply.error", e.getMessage());
