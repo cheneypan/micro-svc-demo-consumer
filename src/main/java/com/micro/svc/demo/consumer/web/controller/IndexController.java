@@ -22,7 +22,7 @@ public class IndexController {
     @Value("${spring.aplication.name}")
     private String applicationName;
 
-    @Value("${micro_svc_product_server:unknown}")
+    @Value("${micro_svc_product_server:unknown1}")
     private String productServer;
 
     @Autowired
