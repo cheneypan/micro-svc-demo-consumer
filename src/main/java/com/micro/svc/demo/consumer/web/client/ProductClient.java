@@ -5,7 +5,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,14 +13,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductClient extends BaseClient{
 
-    @Value("${micro_svc_product_server:unknown}")
-    private String productServer;
-
-    public String call(String msg) throws Exception {
-        logger.info("productServer: " + productServer);
+    public String call(String url, String msg) throws Exception {
+        logger.info("productServer: " + url);
         logger.info("send message: " + msg);
 
-        String url = "http://" + this.productServer + ":8080/call?msg=" + msg;
+        url = "http://" + url + "/call?msg=" + msg;
         logger.info("url: " + url);
 
         HttpClient client = HttpClientBuilder.create().build();

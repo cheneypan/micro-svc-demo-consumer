@@ -33,6 +33,7 @@ public class IndexController {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("spring.aplication.name", applicationName);
         jsonObject.put("micro.svc.product.server", productServer);
+        jsonObject.put("micro.svc.product.server.port", 8080);
         jsonObject.put("random.num", RandomStringUtils.randomNumeric(8));
         jsonObject.put("random.string", RandomStringUtils.randomAlphabetic(8));
 
