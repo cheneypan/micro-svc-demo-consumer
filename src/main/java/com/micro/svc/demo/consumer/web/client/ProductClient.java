@@ -13,11 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductClient extends BaseClient{
 
-    public String call(String url, String msg) throws Exception {
-        logger.info("productServer: " + url);
-        logger.info("send message: " + msg);
-
-        url = "http://" + url + "/call?msg=" + msg;
+    public String call(String url) throws Exception {
         logger.info("url: " + url);
 
         HttpClient client = HttpClientBuilder.create().build();
