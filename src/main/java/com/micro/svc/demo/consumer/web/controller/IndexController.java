@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by cheney on 2017/8/27.
  */
@@ -28,6 +31,8 @@ public class IndexController {
     @Autowired
     private ProductClient productClient;
 
+    private SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+
     @RequestMapping(value = "", method = {RequestMethod.GET, RequestMethod.POST})
     public Object index() {
         JSONObject jsonObject = new JSONObject();
@@ -36,6 +41,7 @@ public class IndexController {
         jsonObject.put("micro.svc.product.server.port", 8080);
         jsonObject.put("random.num", RandomStringUtils.randomNumeric(8));
         jsonObject.put("random.string", RandomStringUtils.randomAlphabetic(8));
+        jsonObject.put("now", df.format(new Date()));
 
         JSONObject replyJSON = new JSONObject();
         if (StringUtils.isNotBlank(productServer) && !"unknown".equalsIgnoreCase(productServer)) {
